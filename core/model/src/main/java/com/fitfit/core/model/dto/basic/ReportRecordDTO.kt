@@ -73,6 +73,10 @@ data class BannerInfoDTO(
     @Json(name = "category") val category: String,
     @Json(name = "company_name")val companyName: String,
     @Json(name = "phone_number")val phoneNumber: String,
+    @Json(name = "center")val center: List<Float>?,
+    @Json(name = "width")val width: Float?,
+    @Json(name = "height")val height: Float?,
+
 ){
     fun toBannerInfo(): BannerInfo {
         return BannerInfo(
@@ -80,7 +84,10 @@ data class BannerInfoDTO(
             status = BannerStatus.valueOf(status),
             category = category,
             companyName = companyName,
-            phoneNumber = phoneNumber
+            phoneNumber = phoneNumber,
+            center = center,
+            width = width,
+            height = height
         )
     }
 }

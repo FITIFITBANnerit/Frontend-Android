@@ -1,20 +1,34 @@
 package com.fitfit.core.ui.designsystem.components
 
+import android.content.Context
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -34,10 +49,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Size
+import com.fitfit.core.model.report.data.BannerInfo
 import com.fitfit.core.ui.designsystem.R
 import com.fitfit.core.ui.designsystem.components.utils.ClickableBox
 import com.fitfit.core.ui.designsystem.components.utils.MySpacerColumn
@@ -102,6 +121,186 @@ fun ImageFromUrl(
             isError = true
         }
     )
+}
+
+@Composable
+fun ImageFromUrlAndBannerBoxOverlay(
+    imageUrl: String,
+    contentDescription: String,
+    modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Crop,
+    bannersInfo: List<BannerInfo>? = null,
+){
+    val context = LocalContext.current
+    var isLoading by rememberSaveable { mutableStateOf(false) }
+    var isError by rememberSaveable { mutableStateOf(false) }
+
+    val imageSizePx = remember(imageUrl) { mutableStateOf(IntSize.Zero) }
+    val displaySizeDp = remember(imageUrl) { mutableStateOf(IntSize.Zero) }
+
+    val aspectRatio = remember(imageUrl) { mutableFloatStateOf(3f / 4f) }
+
+    val density = LocalDensity.current
+
+    LaunchedEffect(imageUrl) {
+        imageSizePx.value = getImageResolution(context, imageUrl) ?: IntSize.Zero
+//        Log.d("aaa", "-- new image size(dp): $imageSizePx")
+
+        aspectRatio.value = imageSizePx.value.width.toFloat() / imageSizePx.value.height
+    }
+
+
+    Box(
+        modifier = Modifier
+            .aspectRatio(aspectRatio.value)
+            .onSizeChanged {
+                val newWidth = with(density) { it.width.toDp().value }
+                val newHeight = with(density) { it.height.toDp().value }
+
+                val newSize = IntSize(newWidth.toInt(), newHeight.toInt())
+                if (displaySizeDp.value != newSize) {
+                    displaySizeDp.value = newSize
+//                    Log.d("aaa", "-- new display size(dp): $displaySizeDp")
+                }
+            }
+    ) {
+        if (isLoading){
+            OnLoadingImage()
+        }
+
+        if (isError){
+            OnErrorImage()
+        }
+
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(imageUrl)
+                .crossfade(300)
+                .build(),
+            contentDescription = contentDescription,
+            contentScale = contentScale,
+            modifier = modifier,
+            onLoading = {
+                isLoading = true
+            },
+            onSuccess = {
+                isLoading = false
+                isError = false
+            },
+            onError = {
+                isLoading = false
+                isError = true
+            }
+        )
+
+        // Banner box overlay
+        if(
+            !bannersInfo.isNullOrEmpty()
+            && imageSizePx.value.width >= 1 && imageSizePx.value.height >= 1
+            && displaySizeDp.value.width >= 1 && displaySizeDp.value.height >= 1) {
+
+            BannerBoxOverlay(
+                displaySizeDp = displaySizeDp,
+                imageSizePx = imageSizePx,
+                bannersInfo = bannersInfo
+            )
+        }
+    }
+}
+
+@Composable
+private fun BannerBoxOverlay(
+    displaySizeDp: MutableState<IntSize>,
+    imageSizePx: MutableState<IntSize>,
+    bannersInfo: List<BannerInfo>
+){
+//    Log.d("aaa", "image size: $imageSizePx , display size: $displaySizeDp")
+
+    val scaleX = displaySizeDp.value.width.toFloat() / imageSizePx.value.width
+    val scaleY = displaySizeDp.value.height.toFloat() / imageSizePx.value.height
+
+    bannersInfo.forEach { bannerInfo ->
+        var show by remember { mutableStateOf(false) }
+        LaunchedEffect(Unit) {
+//            delay(1000)
+            show = true
+        }
+
+        val center = bannerInfo.center
+        val width = bannerInfo.width
+        val height = bannerInfo.height
+
+//        Log.d("aaa", "    box center: ${center}, width: $width, height: $height")
+
+        if (center != null && width != null && height != null) {
+            val scaledCenterX = center[0] * scaleX
+            val scaledCenterY = center[1] * scaleY
+            val scaledWidth = width * scaleX
+            val scaledHeight = height * scaleY
+
+//                    Log.d("aaa", "    scaledCenterX: ${scaledCenterX}, scaledCenterY: ${scaledCenterY}")
+//                    Log.d("aaa", "    scaledWidth: ${scaledWidth}, scaledHeight: ${scaledHeight}")
+
+            // top-left coordinates
+            val startX = (scaledCenterX - (scaledWidth / 2)).coerceIn(0f, displaySizeDp.value.width.toFloat())
+            val startY = (scaledCenterY - (scaledHeight / 2)).coerceIn(0f, displaySizeDp.value.height.toFloat())
+            val startOffset = DpOffset(startX.dp, startY.dp)
+
+//                    Log.d("aaa", "    startX: ${startX}, startY: ${startY}")
+
+            Box(
+                modifier = Modifier
+                    .offset(startOffset.x, startOffset.y)
+            ) {
+
+                AnimatedVisibility(
+                    visible = show,
+                    enter = fadeIn(tween(500)) + scaleIn(tween(1000, delayMillis = 200)),
+                    exit = fadeOut(tween(300)) + scaleOut(tween(300))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(
+                                width = scaledWidth.dp.coerceAtMost((displaySizeDp.value.width - startX).dp),
+                                height = scaledHeight.dp.coerceAtMost((displaySizeDp.value.height - startY).dp)
+                            )
+                            .border(2.dp, bannerInfo.status.color, RoundedCornerShape(4.dp))
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(topStart = 4.dp, bottomEnd = 4.dp))
+                                .background(bannerInfo.status.color)
+                        ) {
+                            Text(
+                                text = bannerInfo.bannerId.toString(),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = bannerInfo.status.textColor,
+                                modifier = Modifier.padding(horizontal = 3.dp, vertical = 0.5.dp)
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+suspend fun getImageResolution(
+    context: Context,
+    imageUrl: String
+): IntSize? {
+    val imageLoader = ImageLoader(context)
+
+    val request = ImageRequest.Builder(context)
+        .data(imageUrl)
+        .size(Size.ORIGINAL)
+        .build()
+
+    val result = imageLoader.execute(request)
+
+    val drawable = (result.drawable ?: return null)
+    return IntSize(drawable.intrinsicWidth, drawable.intrinsicHeight)
 }
 
 @Composable
