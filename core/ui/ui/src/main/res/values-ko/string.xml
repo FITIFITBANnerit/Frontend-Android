@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--card/report/ ============================================================================-->
+    <!-- ContentCard.kt -->
+    <string name="no_content">내용 없음</string>
+    <string name="add_content">내용 추가</string>
+
+    <!-- ImageCard.kt -->
+    <string name="no_photos">사진 없음</string>
+    <string name="photo">사진</string>
+
+    <!-- ReportRecordInfoCard.kt -->
+    <string name="report_id">신고 ID</string>
+    <string name="status">상태</string>
+    <string name="report_time">신고 시간</string>
+    <string name="banner_id">현수막 ID</string>
+    <string name="category">종류</string>
+    <string name="company_name">회사명</string>
+    <string name="phone_number">전화번호</string>
+
+
     <!--card/ ===================================================================================-->
-    <!-- AppIconWithAppNameCard.kt -->
+    <!-- AppIconCard.kt -->
+    <string name="bannerit_app_icon">Banner it 앱 아이콘</string>
+
+    <!-- ContactCard.kt -->
+    <string name="contact">문의</string>
+
+
+    <!-- DeveloperCard.kt -->
+    <string name="developer">개발자</string>
+
+
+    <!-- UserProfileCard.kt -->
     <string name="user_info">사용자 정보</string>
     <string name="no_name">이름 없음</string>
     <string name="no_email">이메일 없음</string>
@@ -9,13 +39,25 @@
     <string name="my_profile_image">프로필 사진</string>
     <string name="default_profile_image">기본 프로필 사진</string>
 
+    <!-- VersionCard.kt -->
+    <string name="version">버전</string>
+    <string name="latest">(최신)</string>
+    <string name="old_version">(구 버전)</string>
+
 
     <!--dialog/component/ =======================================================================-->
     <!-- DialogButton.kt -->
     <string name="button_cancel">취소</string>
     <string name="button_ok">확인</string>
+    <string name="button_save">저장</string>
+
 
     <!--dialog/ =================================================================================-->
+    <!--DeletingAccountDialog.kt-->
+    <string name="deleting_account">계정 삭제하는 중…</string>
+
+    <!-- SelectBannerStatusDialog.kt -->
+    <string name="set_banner_status">현수막 상태 변경</string>
 
 
 
@@ -32,11 +74,12 @@
 
 
     <!-- ========================================================================================-->
+    <!--ErrorScreen.kt-->
+    <string name="error_occurred">오류가 발생했어요…</string>
+    <string name="turning_the_app_off_and_on">앱을 껐다 켜보세요.</string>
+
     <!--InternetUnavailable.kt-->
     <string name="internet_unavailable_check_connection">인터넷 연결 없음\n인터넷 연결을 확인하세요.</string>
 
-    <!--SegmentedButtons.kt-->
-    <string name="_24h">24시간</string>
-    <string name="_12h">12시간</string>
 
 </resources>

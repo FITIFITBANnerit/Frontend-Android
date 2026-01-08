@@ -3,13 +3,13 @@ package com.fitfit.bannerit.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fitfit.bannerit.navigation.TopLevelDestination
 import com.fitfit.core.data.data.repository.PreferencesRepository
 import com.fitfit.core.data.data.repository.SplashRepository
 import com.fitfit.core.model.data.DateTimeFormat
 import com.fitfit.core.model.data.Theme
 import com.fitfit.core.model.data.UserData
 import com.fitfit.core.model.enums.ScreenDestination
-import com.fitfit.core.model.enums.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,7 +28,7 @@ data class AppPreferencesState(
 data class DestinationState(
     val startScreenDestination: ScreenDestination? = null, //if not null, splash screen will be finish
     val moreDetailStartScreenDestination: ScreenDestination = ScreenDestination.SET_DATE_TIME_FORMAT,
-    val currentTopLevelDestination: com.fitfit.bannerit.navigation.TopLevelDestination = com.fitfit.bannerit.navigation.TopLevelDestination.REPORT,
+    val currentTopLevelDestination: TopLevelDestination = TopLevelDestination.REPORT,
     val currentScreenDestination: ScreenDestination = ScreenDestination.SIGN_IN
 )
 
@@ -122,20 +122,22 @@ class AppViewModel @Inject constructor(
     //==============================================================================================
     //at app start splash screen ===================================================================
     fun intiUserAndUpdateStartDestination (
-
+        internetEnabled: Boolean,
     ){
         Log.d("MainActivity1", "[1] intiUserAndUpdateStartDestination start")
 
         initSignedInUser(
-            onDone = { userDataIsNull ->
-                updateCurrentScreenDestination(userDataIsNull)
+            internetEnabled = internetEnabled,
+            onDone = {
+                updateCurrentScreenDestination()
             }
         )
         Log.d("MainActivity1", "                              [1]intiUserAndUpdateStartDestination done")
     }
 
     private fun initSignedInUser(
-        onDone: (userDataIsNull: Boolean) -> Unit
+        internetEnabled: Boolean,
+        onDone: () -> Unit
     ){
         Log.d("MainActivity1", "[2] initSignedInUser start")
 
@@ -156,10 +158,13 @@ class AppViewModel @Inject constructor(
             val jwt = jwt.value
             var newUserData: UserData? = null
 
+            //not signed in
             if (jwt == null || jwt == ""){
                 newUserData = null
             }
-            else {
+
+            //signed in -> get jwt, user data
+            else if (internetEnabled){
                 //gwt user data with jwt
                 val jwtAndUserData = splashRepository.getUserData(jwt = jwt)
 
@@ -175,13 +180,11 @@ class AppViewModel @Inject constructor(
                 }
             }
 
-            newUserData = UserData("test", UserRole.USER, "nameee", "email@gmail.com", null, emptyList()) //TODO: delete this and use upper code
-
             _appUiState.update {
                 it.copy(appUserData = newUserData)
             }
 
-            onDone(newUserData == null || newUserData.userId == "")
+            onDone()
 
             Log.d("MainActivity1", "[2] initSignedInUser - user: ${newUserData?.userId}")
 //            }
@@ -201,20 +204,16 @@ class AppViewModel @Inject constructor(
     //==============================================================================================
     //update screen destination ====================================================================
     fun updateCurrentScreenDestination(
-        userDataIsNull: Boolean
-    ){
-        val startScreenDestination =
-            if (userDataIsNull) ScreenDestination.SIGN_IN
-            else ScreenDestination.MAIN_REPORT
 
+    ){
         _appUiState.update {
             it.copy(
                 screenDestination = it.screenDestination.copy(
-                    startScreenDestination = startScreenDestination
+                    startScreenDestination = ScreenDestination.MAIN_REPORT
                 )
             )
         }
-        Log.d("MainActivity1", "[3] update screen destination: $startScreenDestination")
+        Log.d("MainActivity1", "[3] update screen destination: ScreenDestination.MAIN_REPORT")
     }
 
     fun updateMoreDetailCurrentScreenDestination(
@@ -229,7 +228,7 @@ class AppViewModel @Inject constructor(
         }
     }
 
-    fun updateCurrentTopLevelDestination(topLevelDestination: com.fitfit.bannerit.navigation.TopLevelDestination){
+    fun updateCurrentTopLevelDestination(topLevelDestination: TopLevelDestination){
         _appUiState.update {
             it.copy(
                 screenDestination = it.screenDestination.copy(
@@ -248,17 +247,17 @@ class AppViewModel @Inject constructor(
                 _appUiState.update {
                     it.copy(
                         screenDestination = it.screenDestination.copy(
-                            currentTopLevelDestination = com.fitfit.bannerit.navigation.TopLevelDestination.REPORT,
+                            currentTopLevelDestination = TopLevelDestination.REPORT,
                             currentScreenDestination = screenDestination
                         )
                     )
                 }
             }
-            ScreenDestination.MAIN_LOGS -> {
+            ScreenDestination.MAIN_MY_RECORDS -> {
                 _appUiState.update {
                     it.copy(
                         screenDestination = it.screenDestination.copy(
-                            currentTopLevelDestination = com.fitfit.bannerit.navigation.TopLevelDestination.LOGS,
+                            currentTopLevelDestination = TopLevelDestination.MY_RECORDS,
                             currentScreenDestination = screenDestination
                         )
                     )

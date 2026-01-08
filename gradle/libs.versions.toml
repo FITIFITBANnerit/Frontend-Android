@@ -7,7 +7,8 @@ espressoCore = "3.6.1"
 #1 compose bom
 composeBom = "2025.01.00"
 
-#2 firebase bom
+#2 integrity
+integrity = "1.4.0"
 
 #3 core / activity / appcompat / material
 coreKtx = "1.15.0"
@@ -20,7 +21,7 @@ hilt = "2.51.1"
 androidxHiltNavigationCompose = "1.2.0"
 
 #5 open source license
-
+aboutLibraries = "10.10.0"
 
 #6 lifecycle
 lifecycle = "2.8.7"
@@ -50,18 +51,19 @@ googleid = "1.1.1"
 #14 retrofit / serialization
 retrofit = "2.9.0"
 moshi = "1.15.1"
+okhttp = "4.11.0"
 
 #15 camerax
 camerax= "1.5.0-alpha05"
 
-#16 google ml kit pose detection
-pose-detection= "18.0.0-beta5"
-
-#17 image
+#16 image
 coil = "2.4.0"
 
-#18 google maps
+#17 google maps
 playServiceMaps = "19.1.0"
+
+#18 zoomable
+zoomable = "1.5.2"
 
 
 
@@ -102,8 +104,8 @@ androidx-ui-test-junit4 =            { group = "androidx.compose.ui", name = "ui
 androidx-material-icons-extended =   { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-material3 =                 { group = "androidx.compose.material3", name = "material3" }
 
-#2 firebase bom
-
+#2 integrity
+google-integrity = { group = "com.google.android.play", name = "integrity", version.ref = "integrity" }
 
 #3 core / activity / appcompat / material
 androidx-core-ktx =         { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -117,7 +119,7 @@ dagger-hilt-android-compiler =     { group = "com.google.dagger", name = "hilt-a
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 
 #5 open source license
-
+aboutlibraries = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 
 #6 lifecycle
 androidx-lifecycle-common =          { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "lifecycle" }
@@ -151,6 +153,7 @@ google-googleid = { group = "com.google.android.libraries.identity.googleid", na
 squareup-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 squareup-converter-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
 squareup-moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi" }
+squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 
 #15 camerax
 androidx-camera-core =        { group = "androidx.camera", name = "camera-core", version.ref = "camerax" }
@@ -161,14 +164,14 @@ androidx-camera-video =       { group = "androidx.camera", name = "camera-video"
 androidx-camera-view =        { group = "androidx.camera", name = "camera-view", version.ref = "camerax" }
 androidx-camera-extentions =  { group = "androidx.camera", name = "camera-extensions", version.ref = "camerax" }
 
-#16 google ml kit pose detection
-mlkit-pose-detection =  { group = "com.google.mlkit", name = "pose-detection", version.ref = "pose-detection" }
-
-#17 image
+#16 image
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
-#18 google maps
-google-play-services-maps =        { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServiceMaps" }
+#17 google maps
+google-play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServiceMaps" }
+
+#18 zoomable
+zoomable = { group = "net.engawapg.lib", name = "zoomable", version.ref = "zoomable" }
 
 
 
@@ -189,3 +192,6 @@ hilt =                  { id = "com.google.dagger.hilt.android", version.ref = "
 
 #serialization
 serialization =     { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+#about libraries
+aboutlibraries =      { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries"}

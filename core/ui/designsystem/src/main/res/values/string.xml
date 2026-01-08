@@ -16,19 +16,31 @@
     <string name="authentication_complete">Authentication complete</string>
     <string name="authenticating">Authenticating…</string>
 
-    <!-- BottomSaveCancelBar.kt -->
+    <!-- BottomButtons.kt -->
+    <string name="return_to_home">Return to home</string>
+    <string name="go_back">Go back</string>
+
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+
+    <!-- EditBannerStatusButton.kt -->
+    <string name="edit_banner_status">Edit banner status</string>
 
     <!-- PrivacyPolicyButton.kt -->
     <string name="privacy_policy">Privacy policy</string>
 
+    <!-- ReportButton.kt -->
+    <string name="report_banner">Report banner</string>
+
+    <!-- ReportTwoButtons.kt -->
+    <string name="take_photos">Take photos</string>
+    <string name="select_photos">Select photos</string>
+    <string name="select_location">Select location</string>
+    <string name="current_location">Current location</string>
+
     <!-- TextButtons.kt -->
     <string name="try_again">Try again</string>
     <string name="settings">Settings</string>
-
-    <!-- WorkoutButtons.kt -->
-    <string name="next_exercise">Next exercise</string>
 
 
     <!--component/topAppBars/ ===================================================================-->
@@ -39,12 +51,14 @@
     <!--component/ ==============================================================================-->
     <!-- Image.kt -->
     <string name="image_loading_error">Image loading error</string>
+    <string name="no_image">No image</string>
 
 
     <!--component/icon/MyIcons.kt/ =======================================================-->
     <!--NavigationBarIcon-->
     <string name="report">Report</string>
-    <string name="logs">Logs</string>
+    <string name="lookup">Lookup</string>
+    <string name="my_records">My records</string>
     <string name="more">More</string>
 
     <!--TopBarIcon-->
@@ -52,6 +66,7 @@
     <string name="edit">Edit</string>
     <string name="close">Close</string>
     <string name="more_options">More options</string>
+    <string name="download_image">Download image</string>
 
     <!--IconTextButtonIcon-->
 
@@ -63,6 +78,7 @@
 
     <!--MyIcons-->
     <string name="error">Error</string>
+    <string name="completed">Completed</string>
 
     <string name="sign_in">Sign in</string>
 
@@ -70,7 +86,9 @@
     <string name="collapse">Collapse</string>
 
     <string name="flip_camera">Flip camera</string>
+
     <string name="open_in_new">Open in new</string>
+    <string name="send_email">Send email</string>
 
 
 </resources>

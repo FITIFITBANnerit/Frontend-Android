@@ -16,19 +16,31 @@
     <string name="authentication_complete">인증 완료</string>
     <string name="authenticating">인증 중…</string>
 
-    <!-- BottomSaveCancelBar.kt -->
+    <!-- BottomButtons.kt -->
+    <string name="return_to_home">홈으로 돌아가기</string>
+    <string name="go_back">뒤로가기</string>
+
     <string name="save">저장</string>
     <string name="cancel">취소</string>
+
+    <!-- EditBannerStatusButton.kt -->
+    <string name="edit_banner_status">현수막 상태 변경</string>
 
     <!-- PrivacyPolicyButton.kt -->
     <string name="privacy_policy">개인정보 처리방침</string>
 
+    <!-- ReportButton.kt -->
+    <string name="report_banner">현수막 신고</string>
+
+    <!-- ReportTwoButtons.kt -->
+    <string name="take_photos">사진 찍기</string>
+    <string name="select_photos">사진 선택</string>
+    <string name="select_location">위치 선택</string>
+    <string name="current_location">현위치로</string>
+
     <!-- TextButtons.kt -->
     <string name="try_again">다시 시도</string>
     <string name="settings">설정</string>
-
-    <!-- WorkoutButtons.kt -->
-    <string name="next_exercise">다음 운동</string>
 
 
     <!--component/topAppBars/ ===================================================================-->
@@ -39,12 +51,14 @@
     <!--component/ ==============================================================================-->
     <!-- Image.kt -->
     <string name="image_loading_error">이미지 로딩 에러</string>
+    <string name="no_image">이미지 없음</string>
 
 
     <!--component/icon/MyIcons.kt/ =======================================================-->
     <!--NavigationBarIcon-->
     <string name="report">신고</string>
-    <string name="logs">기록</string>
+    <string name="lookup">조회</string>
+    <string name="my_records">내 기록</string>
     <string name="more">더 보기</string>
 
     <!--TopBarIcon-->
@@ -52,6 +66,7 @@
     <string name="edit">편집</string>
     <string name="close">닫기</string>
     <string name="more_options">옵션 더보기</string>
+    <string name="download_image">사진 다운로드</string>
 
     <!--IconTextButtonIcon-->
 
@@ -63,6 +78,7 @@
 
     <!--MyIcons-->
     <string name="error">오류</string>
+    <string name="completed">완료</string>
 
     <string name="sign_in">로그인</string>
 
@@ -70,7 +86,9 @@
     <string name="collapse">접기</string>
 
     <string name="flip_camera">카메라 전환</string>
+
     <string name="open_in_new">새 창에서 열기</string>
+    <string name="send_email">이메일 보내기</string>
 
 
 </resources>

@@ -1,5 +1,8 @@
 package com.fitfit.bannerit
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -15,14 +18,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fitfit.bannerit.ui.AppViewModel
+import com.fitfit.bannerit.ui.BannerItApp
+import com.fitfit.bannerit.ui.rememberExternalState
+import com.fitfit.bannerit.utils.calculateWindowSizeClass
+import com.fitfit.bannerit.utils.internetConnectivityObserver.AndroidConnectivityObserver
+import com.fitfit.bannerit.utils.internetConnectivityObserver.ConnectivityViewModel
 import com.fitfit.core.model.enums.AppTheme
 import com.fitfit.core.ui.designsystem.theme.BannerItTheme
-import com.fitfit.bannerit.ui.AppViewModel
-import com.fitfit.bannerit.ui.FitfitApp
-import com.fitfit.bannerit.ui.rememberExternalState
-import com.fitfit.bannerit.utils.ConnectivityObserver
-import com.fitfit.bannerit.utils.NetworkConnectivityObserver
-import com.fitfit.bannerit.utils.calculateWindowSizeClass
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,11 +35,7 @@ private const val MAIN_ACTIVITY_TAG = "MainActivity1"
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-
     private val appViewModel: AppViewModel by viewModels()
-
-    private lateinit var connectivityObserver: ConnectivityObserver
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,6 +48,11 @@ class MainActivity : ComponentActivity() {
             appViewModel.appUiState.value.screenDestination.startScreenDestination == null
         }
 
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        val internetEnabled = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
         //get signed user and update start destination ---------------------------------------------------------
         appViewModel.viewModelScope.launch {
 
@@ -55,26 +60,30 @@ class MainActivity : ComponentActivity() {
             Log.d(MAIN_ACTIVITY_TAG, "- init user and update start destination start")
 
             //this function will get user and set {appViewModel.appUiState.value.screenDestination.startScreenDestination}
-            appViewModel.intiUserAndUpdateStartDestination()
+            appViewModel.intiUserAndUpdateStartDestination(
+                internetEnabled = internetEnabled
+            )
         }
-
 
         enableEdgeToEdge()
 
-        //connectivityObserver
-        connectivityObserver = NetworkConnectivityObserver(applicationContext)
-
-
-
         // ----------------------------------------------------------------------------------------
         setContent {
+            val connectivityViewModel = viewModel<ConnectivityViewModel> {
+                ConnectivityViewModel(
+                    connectivityObserver = AndroidConnectivityObserver(
+                        context = applicationContext
+                    )
+                )
+            }
+
+            val internetEnabled by connectivityViewModel.isConnected.collectAsState()
             val appUiState by appViewModel.appUiState.collectAsState()
 
             //external state
             val externalState = rememberExternalState(
-                context = applicationContext,
                 windowSizeClass = calculateWindowSizeClass(),
-                connectivityObserver = connectivityObserver
+                internetEnabled = internetEnabled
             )
 
             //get app theme
@@ -90,7 +99,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FitfitApp(
+                    BannerItApp(
                         externalState = externalState,
                         appViewModel = appViewModel,
                         isDarkAppTheme = isDarkAppTheme

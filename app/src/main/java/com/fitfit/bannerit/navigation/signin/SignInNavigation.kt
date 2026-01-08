@@ -5,15 +5,17 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.fitfit.core.model.enums.ScreenDestination
-import com.fitfit.feature.signin.signin.SignInRoute
+import com.fitfit.bannerit.navigation.TopLevelDestination
 import com.fitfit.bannerit.navigation.enterTransition
 import com.fitfit.bannerit.navigation.exitTransition
 import com.fitfit.bannerit.navigation.popEnterTransition
 import com.fitfit.bannerit.navigation.popExitTransition
 import com.fitfit.bannerit.ui.AppViewModel
 import com.fitfit.bannerit.ui.ExternalState
+import com.fitfit.core.model.enums.ScreenDestination
+import com.fitfit.feature.signin.signin.SignInRoute
 
+private val topLevelScreenDestination = TopLevelDestination.MORE
 private val screenDestination = ScreenDestination.SIGN_IN
 
 fun NavController.navigateToSignIn(navOptions: NavOptions? = null) =
@@ -24,6 +26,7 @@ fun NavGraphBuilder.signInScreen(
     externalState: ExternalState,
     isDarkAppTheme: Boolean,
 
+    navigateUp: () -> Unit,
     navigateToMain: () -> Unit
 ){
     composable(
@@ -45,7 +48,8 @@ fun NavGraphBuilder.signInScreen(
             updateUserData = {userData ->
                 appViewModel.updateUserData(userData = userData)
             },
-            navigateToMain = navigateToMain
+            navigateToMain = navigateToMain,
+            navigateUp = navigateUp
         )
     }
 }

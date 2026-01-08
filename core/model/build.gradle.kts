@@ -34,8 +34,15 @@ android {
 
 dependencies {
 
+    //compose bom
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+
     //moshi
     implementation(libs.squareup.converter.moshi)
+
+    //okhttp
+    implementation(libs.squareup.okhttp)
 
     //google maps
     implementation(libs.google.play.services.maps)

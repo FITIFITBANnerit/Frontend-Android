@@ -31,6 +31,8 @@ import com.fitfit.core.ui.designsystem.components.ImageFromDrawable
 import com.fitfit.core.ui.designsystem.components.ImageFromUrl
 import com.fitfit.core.ui.designsystem.components.utils.MySpacerColumn
 import com.fitfit.core.ui.designsystem.components.utils.MySpacerRow
+import com.fitfit.core.ui.designsystem.icon.DisplayIcon
+import com.fitfit.core.ui.designsystem.icon.MyIcons
 import com.fitfit.core.ui.designsystem.theme.BannerItTheme
 import com.fitfit.core.ui.ui.R
 
@@ -69,7 +71,7 @@ fun UserProfileCard(
             ProfileImage(
                 profileUserId = userData.userId,
                 internetEnabled = internetEnabled,
-                profileImagePath = userData.profileImageUrl,
+                profileImagePreviewUrl = userData.profileImageUrl,
                 size = profileImageSize,
                 modifier = Modifier.clearAndSetSemantics { }
             )
@@ -90,6 +92,24 @@ fun UserProfileCard(
                     overflow = TextOverflow.Ellipsis
                 )
 
+
+
+
+                //if administrator
+                if (userData.role == UserRole.ADMIN) {
+                    MySpacerColumn(height = 4.dp)
+
+                    Text(
+                        text = stringResource(UserRole.ADMIN.textId),
+                        style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurfaceVariant),
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+
+
+
+
+
                 //email
                 MySpacerColumn(height = 4.dp)
 
@@ -99,6 +119,11 @@ fun UserProfileCard(
                     overflow = TextOverflow.Ellipsis
                 )
 
+
+
+
+
+                //connected with Google
                 if (showSignInWithInfo) {
                     MySpacerColumn(height = 4.dp)
 
@@ -119,6 +144,9 @@ fun UserProfileCard(
             }
 
             Spacer(modifier = Modifier.weight(1f))
+
+            if (enabled)
+                DisplayIcon(icon = MyIcons.clickableItem)
         }
     }
 }
@@ -129,16 +157,16 @@ fun UserProfileCard(
  *
  * @param profileUserId
  * @param internetEnabled
- * @param profileImagePath it can be url or image file name
+ * @param profileImagePreviewUrl it can be url or image file name
  * @param downloadImage
  * @param modifier
  * @param size
  */
 @Composable
 fun ProfileImage(
-    profileUserId: String,
+    profileUserId: Int,
     internetEnabled: Boolean,
-    profileImagePath: String?,
+    profileImagePreviewUrl: String?,
 
     modifier: Modifier = Modifier,
     size: Dp = 80.dp
@@ -148,9 +176,9 @@ fun ProfileImage(
             .size(size)
             .clip(CircleShape)
     ) {
-        if (profileImagePath != null) {
+        if (profileImagePreviewUrl != null) {
             ImageFromUrl(
-                imageUrl = profileImagePath,
+                imageUrl = profileImagePreviewUrl,
                 contentDescription = stringResource(id = R.string.my_profile_image),
                 modifier = Modifier.fillMaxSize()
             )
@@ -196,10 +224,11 @@ private fun UserProfileCardPreview(){
         ) {
             UserProfileCard(
                 userData = UserData(
-                    userId = "",
+                    jwt = "",
+                    userId = 123,
                     role = UserRole.USER,
                     name = "user name",
-                    email = "somewhere@gmail.com",
+                    email = "bannerit@gmail.com",
                     profileImageUrl = "https://lh3.googleusercontent.com/a/ACg8ocIr4TMfwXVpUC1Bk-VuEgNqPo9A7D0ljwsahznS82iJ-40=s96-c",
                     providerIds = listOf(),
                 ),
@@ -221,10 +250,11 @@ private fun UserProfileCardWithProviderIdPreview(){
         ) {
             UserProfileCard(
                 userData = UserData(
-                    userId = "",
+                    jwt = "",
+                    userId = 123,
                     role = UserRole.USER,
                     name = "user name",
-                    email = "somewhere@gmail.com",
+                    email = "bannerit@gmail.com",
                     profileImageUrl = null,
                     providerIds = listOf(ProviderId.GOOGLE),
                 ),

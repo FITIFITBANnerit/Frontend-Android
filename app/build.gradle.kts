@@ -19,8 +19,8 @@ android {
         applicationId = "com.fitfit.bannerit"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0-beta"
+        versionCode = 8
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -89,10 +89,12 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:data:data"))
     implementation(project(":core:ui:designsystem"))
+    implementation(project(":core:ui:ui"))
 
+    implementation(project(":feature:image"))
     implementation(project(":feature:signin"))
     implementation(project(":feature:report"))
-    implementation(project(":feature:logs"))
+    implementation(project(":feature:record"))
     implementation(project(":feature:more"))
 
     
@@ -121,6 +123,9 @@ dependencies {
 
     //system ui controller
     implementation(libs.google.accompanist.systemuicontroller)
+
+    //google maps
+    implementation(libs.google.play.services.maps)
 
     //test
     testImplementation(libs.junit)

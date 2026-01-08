@@ -1,6 +1,7 @@
 package com.fitfit.bannerit.navigation.mainReport
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,6 +17,7 @@ import com.fitfit.core.ui.designsystem.components.utils.MySpacerRow
 import com.fitfit.feature.report.mianReport.MainReportRoute
 import com.fitfit.bannerit.navigation.TopEnterTransition
 import com.fitfit.bannerit.navigation.TopExitTransition
+import com.fitfit.bannerit.navigation.TopLevelDestination
 import com.fitfit.bannerit.navigation.TopPopEnterTransition
 import com.fitfit.bannerit.navigation.TopPopExitTransition
 import com.fitfit.bannerit.ui.AppViewModel
@@ -24,7 +26,7 @@ import com.fitfit.bannerit.utils.WindowHeightSizeClass
 import com.fitfit.bannerit.utils.WindowWidthSizeClass
 import kotlinx.coroutines.delay
 
-private val topLevelScreenDestination = com.fitfit.bannerit.navigation.TopLevelDestination.REPORT
+private val topLevelScreenDestination = TopLevelDestination.REPORT
 private val screenDestination = ScreenDestination.MAIN_REPORT
 
 fun NavController.navigateToMainReport(navOptions: NavOptions? = null) =
@@ -33,7 +35,9 @@ fun NavController.navigateToMainReport(navOptions: NavOptions? = null) =
 fun NavGraphBuilder.mainReportScreen(
     appViewModel: AppViewModel,
     externalState: ExternalState,
+    lazyListState: LazyListState,
 
+    navigateToSignIn: () -> Unit,
     navigateToReport: () -> Unit,
 ) {
     composable(
@@ -67,9 +71,12 @@ fun NavGraphBuilder.mainReportScreen(
             }
 
             MainReportRoute(
-                navigateToWorkout = navigateToReport,
+                appUserData = appUiState.appUserData,
                 use2Panes = externalState.windowSizeClass.use2Panes,
-                spacerValue = externalState.windowSizeClass.spacerValue
+                spacerValue = externalState.windowSizeClass.spacerValue,
+                lazyListState = lazyListState,
+                navigateToSignIn = navigateToSignIn,
+                navigateToReport = navigateToReport
             )
         }
     }

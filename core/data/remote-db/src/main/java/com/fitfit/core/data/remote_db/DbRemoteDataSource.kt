@@ -1,9 +1,15 @@
 package com.fitfit.core.data.remote_db
 
 import com.fitfit.core.model.data.UserData
+import com.fitfit.core.model.enums.UserRole
+import com.fitfit.core.model.report.data.BannerInfo
+import com.fitfit.core.model.report.data.ReportImage
+import com.fitfit.core.model.report.data.ReportRecord
 
 interface DbRemoteDataSource {
 
+
+    //sign in --------------------------------------------------------------------------------------
 
     /**
      * request idToken /
@@ -17,7 +23,7 @@ interface DbRemoteDataSource {
      */
     suspend fun requestUserDataWithIdToken(
         userGoogleIdToken: String,
-    ): Pair<String, UserData>?
+    ): UserData?
 
 
 
@@ -35,5 +41,70 @@ interface DbRemoteDataSource {
     suspend fun requestUserDataWithJwt(
         jwt: String
     ): Pair<String, UserData>?
+
+
+    //report banner --------------------------------------------------------------------------------
+    suspend fun getPreSignedUrls(
+        jwt: String,
+        reportImages: List<ReportImage>
+    ): List<ReportImage>?
+
+    suspend fun postBannerReport(
+        jwt: String,
+        userId: Int,
+        reportRecord: ReportRecord
+    ): Boolean
+
+    suspend fun uploadImagesToS3(
+        reportImages: List<ReportImage>
+    ): Boolean
+
+
+    //TODO delete after test
+//    suspend fun sendTestImage(
+//        jwt: String,
+//        userId: Int,
+//        reportRecord: ReportRecord
+//    ): Boolean
+
+
+
+
+
+    //get report records ---------------------------------------------------------------------------
+    suspend fun getAppUserReportRecords(
+        jwt: String,
+    ): List<ReportRecord>?
+
+    suspend fun getAllReportRecords(
+
+    ): List<ReportRecord>?
+
+
+
+
+    //edit report records --------------------------------------------------------------------------
+    suspend fun editBannerInfo(
+        jwt: String,
+        reportId: Int,
+        bannerInfo: List<BannerInfo>
+    ): Boolean
+
+
+
+    //account --------------------------------------------------------------------------------------
+    suspend fun updateUserData(
+        jwt: String,
+        userName: String,
+        userRole: UserRole
+    ): Boolean
+
+    /**
+     * ⚠️ DELETE ACCOUNT ⚠️
+     */
+    suspend fun deleteAccount(
+        jwt: String
+    ): Boolean
+
 }
 

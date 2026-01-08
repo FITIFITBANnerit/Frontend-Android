@@ -8,16 +8,19 @@ enum class ScreenDestination(
 
     //main
     MAIN_REPORT("mainReport"),
-    MAIN_LOGS("mainLogs"),
+    MAIN_LOOKUP("mainLookup"),
+    MAIN_MY_RECORDS("mainMyRecords"),
     MAIN_MORE("mainMore"),
 
 
 
     //from MAIN_REPORT
     REPORT("report"),
+    CAMERA("camera"),
 
     //form MAIN_LOGS
-    LOG_DETAIL("logDetail"),
+    REPORT_RECORD_DETAIL("ReportRecordDetail"),
+    IMAGE("image"),
 
     //from MAIN_MORE
     SET_DATE_TIME_FORMAT("setDateTimeFormat"),
@@ -25,5 +28,6 @@ enum class ScreenDestination(
     ACCOUNT("account"),
     ABOUT("about"),
     DELETE_ACCOUNT("deleteAccount"),
-    EDIT_PROFILE("editProfile")
+    EDIT_PROFILE("editProfile"),
+    OPEN_SOURCE_LICENSE("openSourceLicense")
 }

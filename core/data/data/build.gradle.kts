@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":core:data:credentials"))
     implementation(project(":core:data:local-db"))
     implementation(project(":core:data:remote-db"))
+    implementation(project(":core:data:local-image-file"))
 
     //
     implementation(libs.androidx.core.ktx)
@@ -53,8 +54,8 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    //ml kit pose detection
-    implementation(libs.mlkit.pose.detection)
+    //google maps
+    implementation(libs.google.play.services.maps)
 
     //test
     testImplementation(libs.junit)

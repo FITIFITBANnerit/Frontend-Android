@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--card/report/ ============================================================================-->
+    <!-- ContentCard.kt -->
+    <string name="no_content">No content</string>
+    <string name="add_content">Add content</string>
+
+    <!-- ImageCard.kt -->
+    <string name="no_photos">No photos</string>
+    <string name="photo">Photo</string>
+
+    <!-- ReportRecordInfoCard.kt -->
+    <string name="report_id">Report ID</string>
+    <string name="status">Status</string>
+    <string name="report_time">Report time</string>
+    <string name="banner_id">Banner ID</string>
+    <string name="category">Category</string>
+    <string name="company_name">Company name</string>
+    <string name="phone_number">Phone number</string>
+
+
     <!--card/ ===================================================================================-->
-    <!-- AppIconWithAppNameCard.kt -->
+    <!-- AppIconCard.kt -->
+    <string name="bannerit_app_icon">Banner it app icon</string>
+
+    <!-- ContactCard.kt -->
+    <string name="contact">Contact</string>
+    <string name="contact_email" translatable="false">fitfitbannerit@gmail.com</string>
+
+    <!-- DeveloperCard.kt -->
+    <string name="developer">Developer</string>
+    <string name="developer_info" translatable="false">FE - 이세종\nBE - 정다영, 장유진\nAI - 박서진</string>
+
+    <!-- UserProfileCard.kt -->
     <string name="user_info">User information</string>
     <string name="no_name">No name</string>
     <string name="no_email">No email</string>
@@ -9,13 +39,25 @@
     <string name="my_profile_image">Profile image</string>
     <string name="default_profile_image">Default profile image</string>
 
+    <!-- VersionCard.kt -->
+    <string name="version">Version</string>
+    <string name="latest">(latest)</string>
+    <string name="old_version">(old ver)</string>
+
 
     <!--dialog/component/ =======================================================================-->
     <!-- DialogButton.kt -->
     <string name="button_cancel">Cancel</string>
     <string name="button_ok">OK</string>
+    <string name="button_save">Save</string>
+
 
     <!--dialog/ =================================================================================-->
+    <!--DeletingAccountDialog.kt-->
+    <string name="deleting_account">Deleting account…</string>
+
+    <!-- SelectBannerStatusDialog.kt -->
+    <string name="set_banner_status">Set banner status</string>
 
 
 
@@ -32,11 +74,12 @@
 
 
     <!-- ========================================================================================-->
+    <!--ErrorScreen.kt-->
+    <string name="error_occurred">Error occurred…</string>
+    <string name="turning_the_app_off_and_on">Try turning the app off and on.</string>
+
     <!--InternetUnavailable.kt-->
     <string name="internet_unavailable_check_connection">Internet unavailable.\nCheck internet connection.</string>
 
-    <!--SegmentedButtons.kt-->
-    <string name="_24h">24h</string>
-    <string name="_12h">12h</string>
 
 </resources>

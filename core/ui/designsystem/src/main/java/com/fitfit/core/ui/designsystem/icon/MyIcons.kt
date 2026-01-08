@@ -5,8 +5,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.FormatListBulleted
 import androidx.compose.material.icons.automirrored.rounded.Login
+import androidx.compose.material.icons.automirrored.rounded.ManageSearch
 import androidx.compose.material.icons.automirrored.rounded.NavigateNext
 import androidx.compose.material.icons.automirrored.rounded.Send
+import androidx.compose.material.icons.outlined.HideImage
 import androidx.compose.material.icons.outlined.Keyboard
 import androidx.compose.material.icons.outlined.MoreHoriz
 import androidx.compose.material.icons.outlined.Palette
@@ -14,6 +16,8 @@ import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Bookmarks
 import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.CameraAlt
+import androidx.compose.material.icons.rounded.CheckCircleOutline
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.Delete
@@ -22,26 +26,26 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material.icons.rounded.East
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.EditNote
-import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
+import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.Flag
 import androidx.compose.material.icons.rounded.FlipCameraAndroid
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
-import androidx.compose.material.icons.rounded.LocationOff
-import androidx.compose.material.icons.rounded.Luggage
 import androidx.compose.material.icons.rounded.Map
 import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.MoreTime
 import androidx.compose.material.icons.rounded.MoreVert
+import androidx.compose.material.icons.rounded.MyLocation
 import androidx.compose.material.icons.rounded.NoPhotography
 import androidx.compose.material.icons.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.OutlinedFlag
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.Payments
+import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.QrCode
 import androidx.compose.material.icons.rounded.Remove
 import androidx.compose.material.icons.rounded.Route
@@ -70,8 +74,13 @@ data class MyIcon(
 object NavigationBarIcon {
     val reportFilled = MyIcon(Icons.Rounded.Flag,               24.dp, false, null, R.string.report)
     val reportOutlined = MyIcon(Icons.Rounded.OutlinedFlag,     24.dp, false, null, R.string.report)
-    val logsFilled = MyIcon(Icons.AutoMirrored.Rounded.FormatListBulleted,      24.dp, false, null, R.string.logs)
-    val logsOutlined = MyIcon(Icons.AutoMirrored.Rounded.FormatListBulleted,   24.dp, false, null, R.string.logs)
+
+    val lookupFilled = MyIcon(Icons.AutoMirrored.Rounded.ManageSearch,      28.dp, false, null, R.string.lookup)
+    val lookupOutlined = MyIcon(Icons.AutoMirrored.Rounded.ManageSearch,    28.dp, false, null, R.string.lookup)
+
+    val myRecordsFilled = MyIcon(Icons.AutoMirrored.Rounded.FormatListBulleted,     24.dp, false, null, R.string.my_records)
+    val myRecordsOutlined = MyIcon(Icons.AutoMirrored.Rounded.FormatListBulleted,   24.dp, false, null, R.string.my_records)
+
     val moreFilled = MyIcon(Icons.Rounded.MoreHoriz,      24.dp, false, null, R.string.more)
     val moreOutlined = MyIcon(Icons.Outlined.MoreHoriz,   24.dp, false, null, R.string.more)
 }
@@ -81,6 +90,7 @@ object TopAppBarIcon {
     val edit = MyIcon(Icons.Rounded.Edit,                       22.dp, false, null, R.string.edit)
     val close = MyIcon(Icons.Rounded.Close,                     22.dp, false, null, R.string.close)
     val more = MyIcon(Icons.Rounded.MoreVert,                   22.dp, false, null, R.string.more_options)
+    val downloadImage = MyIcon(Icons.Rounded.FileDownload,      22.dp, false, CustomColor.white, R.string.download_image)
     val closeImageScreen = MyIcon(Icons.Rounded.Close,          22.dp, false, CustomColor.white, R.string.close)
 }
 
@@ -98,6 +108,14 @@ object IconButtonIcon {
 
     val minus = MyIcon(Icons.Rounded.Remove,   30.dp, false, null, R.string.minus)
     val plus = MyIcon(Icons.Rounded.Add,       30.dp, false, null, R.string.plus)
+
+    val camera = MyIcon(Icons.Rounded.CameraAlt,        30.dp, false, null, null)
+    val gallery = MyIcon(Icons.Rounded.PhotoLibrary,    30.dp, false, null, null)
+
+    val map = MyIcon(Icons.Rounded.Map,                 30.dp, false, null, null)
+    val currentLocation = MyIcon(Icons.Rounded.MyLocation,   30.dp, false, null, null)
+
+    val closeCamera = MyIcon(Icons.Rounded.Close,          30.dp, false, CustomColor.white, R.string.close)
 }
 
 object FabIcon {
@@ -113,7 +131,11 @@ object FabIcon {
 object MyIcons {
 
     //error
-    val error = MyIcon(Icons.Rounded.ErrorOutline,              40.dp, false, null, R.string.error)
+    val error = MyIcon(Icons.Rounded.ErrorOutline,          80.dp, false, null, R.string.error)
+
+    //check
+    val check = MyIcon(Icons.Rounded.CheckCircleOutline,    80.dp, false, null, R.string.completed)
+
 
     //sign in screen
     val signIn = MyIcon(Icons.AutoMirrored.Rounded.Login,       36.dp, true, null, R.string.sign_in)
@@ -121,17 +143,16 @@ object MyIcons {
     val internetUnavailableWhite = MyIcon(Icons.Rounded.CloudOff, 40.dp, false, Color.White, R.string.internet_unavailable)
 
     //no item
-    val noTrips = MyIcon(Icons.Rounded.Luggage,       40.dp, true, null, R.string.example)
-    val noPlan = MyIcon(Icons.Rounded.EditNote,       40.dp, true, null, R.string.example)
-    val noSpot = MyIcon(Icons.Rounded.LocationOff,    40.dp, true, null, R.string.example)
+    val noReportRecord = MyIcon(Icons.Rounded.EditNote,    40.dp, true, null, null)
 
     //edit profile
     val changeProfileImage = MyIcon(Icons.Rounded.Image,    24.dp, false, null, null)
     val deleteProfileImage = MyIcon(Icons.Rounded.Delete,   24.dp, false, null, null)
 
     //image card
-    val deleteImage = MyIcon(Icons.Rounded.Close,       16.dp, false, null, R.string.example)
-    val imageLoadingError = MyIcon(Icons.Rounded.Error, 36.dp, false, null, R.string.example)
+    val deleteImage = MyIcon(Icons.Rounded.Close,               16.dp, false, null, R.string.delete_image)
+    val imageLoadingError = MyIcon(Icons.Rounded.ErrorOutline,  36.dp, false, null, R.string.image_loading_error)
+    val noImage = MyIcon(Icons.Outlined.HideImage,              36.dp, true, null, R.string.no_image)
 
     //search / text input
     val searchLocation = MyIcon(Icons.Rounded.Search,   24.dp, false, null, R.string.example)
@@ -144,11 +165,11 @@ object MyIcons {
 
     //
     val delete = MyIcon(Icons.Rounded.Delete,            22.dp, true, null, R.string.example)
-    val deleteSpot = MyIcon(Icons.Rounded.Delete,            22.dp, true, null, R.string.example)
+    val deleteSpot = MyIcon(Icons.Rounded.Delete,        22.dp, true, null, R.string.example)
     val deleteStartTime = MyIcon(Icons.Rounded.Delete,   22.dp, true, null, R.string.example)
     val deleteEndTime = MyIcon(Icons.Rounded.Delete,     22.dp, true, null, R.string.example)
     val dragHandle = MyIcon(Icons.Rounded.DragHandle,    22.dp, true, null, R.string.example)
-    val clickableItem = MyIcon(Icons.AutoMirrored.Rounded.NavigateNext,    22.dp, true, null, R.string.example)
+    val clickableItem = MyIcon(Icons.AutoMirrored.Rounded.NavigateNext,    22.dp, true, null, null)
 
 
     //set color
@@ -182,5 +203,5 @@ object MyIcons {
 
     //setting
     val openInNew = MyIcon(Icons.Rounded.OpenInNew,     22.dp, true, null, R.string.open_in_new)
-    val sendEmail = MyIcon(Icons.AutoMirrored.Rounded.Send,     22.dp, true, null, R.string.example)
+    val sendEmail = MyIcon(Icons.AutoMirrored.Rounded.Send,     22.dp, true, null, R.string.send_email)
 }

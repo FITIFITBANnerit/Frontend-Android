@@ -10,7 +10,6 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import com.fitfit.core.model.data.UserData
-import com.fitfit.core.model.enums.ProviderId
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import javax.inject.Inject
@@ -45,7 +44,12 @@ class CredentialsApi @Inject constructor(
             return userGoogleIdToken
 
         } catch (e: GetCredentialException) {
-            Log.e(CREDENTIALS_TAG, "error : $e")
+            Log.e(CREDENTIALS_TAG, "signinWithGoogle GetCredentialException error : $e")
+            e.printStackTrace()
+            return null
+        } catch (e: Exception){
+            Log.e(CREDENTIALS_TAG, "signinWithGoogle error : $e")
+            e.printStackTrace()
             return null
         }
     }
@@ -64,7 +68,7 @@ class CredentialsApi @Inject constructor(
                 }
             }
         }
-        //FIXME ???????????
+
         return null
     }
 
@@ -81,12 +85,12 @@ class CredentialsApi @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun signOut(
-        providerIdList: List<ProviderId>,
-        signOutResult: (isSignOutSuccess: Boolean) -> Unit
-    ) {
-        TODO("Not yet implemented")
-    }
+//    override suspend fun signOut(
+//        providerIdList: List<ProviderId>,
+//        signOutResult: (isSignOutSuccess: Boolean) -> Unit
+//    ) {
+//        TODO("Not yet implemented")
+//    }
 
     override fun reAuthenticateGoogleUser(
         intent: Intent,
